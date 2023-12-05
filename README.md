@@ -30,7 +30,7 @@ option. One can use `mkpasswd` after using `nixos-enter` as invluded in the nixo
 3. Become *root*
    1. `sudo -i`
 4. Use nix to get the nixos install tools
-   1. `nix-env -IA nixpkgs.nixos-install-tools`
+   1. `nix-env -iA nixpkgs.nixos-install-tools`
 5. Parition and mount your drives
    1. Mount the root partiiton to `/mnt`
    2. Mount the boot partiiton to `/mnt/boot`
