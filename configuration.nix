@@ -96,7 +96,6 @@
     packages = with pkgs; [ ];
     initialPassword = "changeme";
   };
-  users.mutableUsers = false;
 
   environment.systemPackages = with pkgs; [
     alsa-ucm-conf
