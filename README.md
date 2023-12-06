@@ -42,4 +42,4 @@ option. One can use `mkpasswd` after using `nixos-enter` as included in the nixo
   reference.
 8. Use `nixos-install` to install NixOS
 9. Use `nixos-enter` to temporarily access the system for initial configuration
-10. Set up your user password using `mkpasswd`
+10. Change your password using the `passwd` command
