@@ -94,6 +94,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [ ];
+    initialPassword = "changeme";
   };
   users.mutableUsers = false;
 
