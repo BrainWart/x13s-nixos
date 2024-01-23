@@ -65,6 +65,9 @@ in
       kernelPackages = linuxPackages_x13s;
 
       kernelParams = [
+        # needed to boot
+        dtb=${dtbName}
+
         # jhovold recommended
         "efi=noruntime"
         "clk_ignore_unused"
