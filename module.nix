@@ -66,7 +66,7 @@ in
 
       kernelParams = [
         # needed to boot
-        dtb=${dtbName}
+        "dtb=${dtbName}"
 
         # jhovold recommended
         "efi=noruntime"
