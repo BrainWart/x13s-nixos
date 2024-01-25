@@ -51,17 +51,6 @@ in
         "${dtbName}" = dtb;
       };
 
-      supportedFilesystems = lib.mkForce [
-        "ext4"
-        "btrfs"
-        "vfat"
-      ];
-
-      initrd.supportedFilesystems = lib.mkForce [
-        "btrfs"
-        "vfat"
-      ];
-
       kernelPackages = linuxPackages_x13s;
 
       kernelParams = [
@@ -79,8 +68,6 @@ in
       ];
 
       initrd = {
-        includeDefaultModules = false;
-
         kernelModules = [
           "nvme"
           "phy-qcom-qmp-pcie"
@@ -105,6 +92,20 @@ in
         ];
       };
     };
+
+    nixpkgs.overlays = [
+      (final: super: {
+        # don't try and use zfs
+        zfs = super.zfs.overrideAttrs (
+          _: {
+            meta.platforms = [ ];
+          }
+        );
+
+        # allow missing modules
+        makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
+      })
+    ];
 
     # default is performance
     powerManagement.cpuFreqGovernor = "ondemand";
