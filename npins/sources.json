@@ -23,6 +23,18 @@
       "revision": "bac95eabe6577faa2773cbe7e91c34fd17ab79a0",
       "url": "https://github.com/jhovold/linux/archive/bac95eabe6577faa2773cbe7e91c34fd17ab79a0.tar.gz",
       "hash": "1y8abwa506q9dchqvnaqbb8n3i7nj2jnaxcll1f1476qi0yswc1n"
+    },
+    "linux": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "jhovold",
+        "repo": "linux"
+      },
+      "branch": "wip/sc8280xp-v6.8-rc1",
+      "revision": "2406e3575c4663cda20ee8ff7bcd9399b5cf46bf",
+      "url": "https://github.com/jhovold/linux/archive/2406e3575c4663cda20ee8ff7bcd9399b5cf46bf.tar.gz",
+      "hash": "0c7siqbb921wl5hq3wbzwwi00s0indy488khgpxlx5ar6z0ba44q"
     }
   },
   "version": 3

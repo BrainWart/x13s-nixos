@@ -5,7 +5,7 @@ let
   linux_x13s_pkg =
     { buildLinux, ... }@args:
     let
-      version = "6.7.0";
+      version = "6.8.0-rc1";
       modDirVersion = "${version}";
     in
     buildLinux (
@@ -13,7 +13,7 @@ let
       // {
         inherit version modDirVersion;
 
-        src = sources.jhovold-linux;
+        src = sources.linux;
 
         kernelPatches = args.kernelPatches or [ ];
         extraMeta.branch = lib.versions.majorMinor version;
