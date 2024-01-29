@@ -12,18 +12,6 @@
       "url": "https://github.com/alsa-project/alsa-ucm-conf/archive/e87dde51d68950537f92af955ad0633437cc419a.tar.gz",
       "hash": "14q6h5h4b6kyywmxf1jq726yrv1bl9q6i2pnfbl1hm7r66vgnaip"
     },
-    "jhovold-linux": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "jhovold",
-        "repo": "linux"
-      },
-      "branch": "wip/sc8280xp-v6.7",
-      "revision": "bac95eabe6577faa2773cbe7e91c34fd17ab79a0",
-      "url": "https://github.com/jhovold/linux/archive/bac95eabe6577faa2773cbe7e91c34fd17ab79a0.tar.gz",
-      "hash": "1y8abwa506q9dchqvnaqbb8n3i7nj2jnaxcll1f1476qi0yswc1n"
-    },
     "linux": {
       "type": "Git",
       "repository": {
@@ -31,10 +19,10 @@
         "owner": "jhovold",
         "repo": "linux"
       },
-      "branch": "wip/sc8280xp-v6.8-rc1",
-      "revision": "2406e3575c4663cda20ee8ff7bcd9399b5cf46bf",
-      "url": "https://github.com/jhovold/linux/archive/2406e3575c4663cda20ee8ff7bcd9399b5cf46bf.tar.gz",
-      "hash": "0c7siqbb921wl5hq3wbzwwi00s0indy488khgpxlx5ar6z0ba44q"
+      "branch": "wip/sc8280xp-v6.8-rc2",
+      "revision": "8c977f43e9b53eccf65fa25624bc322ef2338bec",
+      "url": "https://github.com/jhovold/linux/archive/8c977f43e9b53eccf65fa25624bc322ef2338bec.tar.gz",
+      "hash": "0vlzc22112ddlkr3wl7yqp1g7g54r794g3lkfx6va5axra2ys3xj"
     }
   },
   "version": 3
