@@ -1,3 +1,10 @@
+# NixOS x13s Module
+
+https://codeberg.org/adamcstephens/nixos-x13s
+
+Their repository will be more up to date and contains information for
+using their code in a Nix "flake".
+
 # X13s NixOS
 
 This configuration was built using the following resources:
