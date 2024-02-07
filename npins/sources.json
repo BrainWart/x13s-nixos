@@ -1,16 +1,18 @@
 {
   "pins": {
     "alsa-ucm-conf": {
-      "type": "Git",
+      "type": "GitRelease",
       "repository": {
         "type": "GitHub",
         "owner": "alsa-project",
         "repo": "alsa-ucm-conf"
       },
-      "branch": "master",
-      "revision": "e87dde51d68950537f92af955ad0633437cc419a",
-      "url": "https://github.com/alsa-project/alsa-ucm-conf/archive/e87dde51d68950537f92af955ad0633437cc419a.tar.gz",
-      "hash": "14q6h5h4b6kyywmxf1jq726yrv1bl9q6i2pnfbl1hm7r66vgnaip"
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "version": "v1.2.11",
+      "revision": "c40b8cc795c8fe4c83582857d5e317f18a4c065e",
+      "url": "https://api.github.com/repos/alsa-project/alsa-ucm-conf/tarball/v1.2.11",
+      "hash": "1jcn0x6bbg69p1ygxnh1zn33sd9lpbll4bnhvkzw1fjpmw7igjkz"
     },
     "linux": {
       "type": "Git",

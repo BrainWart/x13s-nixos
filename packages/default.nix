@@ -37,9 +37,10 @@ in
 rec {
   "x13s/linux" = pkgs.callPackage linux_x13s_pkg { defconfig = "johan_defconfig"; };
   "x13s/alsa-ucm-conf" = pkgs.alsa-ucm-conf.overrideAttrs (
-    prev: rec {
-      version = "1.2.11-unstable-${builtins.substring 0 7 src.revision}";
+    _: {
+      version = sources.alsa-ucm-conf.version;
       src = sources.alsa-ucm-conf;
+      patches = [ ];
     }
   );
 
