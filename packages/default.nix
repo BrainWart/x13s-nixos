@@ -15,7 +15,21 @@ let
 
         src = sources.linux;
 
-        kernelPatches = args.kernelPatches or [ ];
+        kernelPatches = (args.kernelPatches or [ ]) ++ [
+          {
+            # fix resets when reading EFI vars
+            name = "qcom-shm-bridge-tz";
+            patch = (
+              pkgs.fetchurl {
+                url = "https://lore.kernel.org/lkml/20240205182810.58382-1-brgl@bgdev.pl/t.mbox.gz";
+                hash = "sha256-apwfO/bhVd8jzsHpOPFQXshzdwfg5Zcelf2vCDtlCtI=";
+              }
+            );
+            extraStructuredConfig = {
+              QCOM_TZMEM_MODE_SHMBRIDGE = lib.kernel.yes;
+            };
+          }
+        ];
         extraMeta.branch = lib.versions.majorMinor version;
       }
     );
