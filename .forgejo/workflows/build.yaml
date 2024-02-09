@@ -1,0 +1,35 @@
+on:
+  pull_request:
+  push:
+
+
+jobs:
+  kernel:
+    runs-on: local/aarch64-linux
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set home
+        run: |
+          echo "HOME=$PWD" >> "$GITHUB_ENV"
+
+      - run: |
+          OUTPUT=$(nix build .#x13s/linux --print-out-paths)
+          echo "build_output=$OUTPUT" >> "$GITHUB_ENV"
+
+      - name: upload to cachix
+        run: |
+          cachix push nixos-x13s $build_output
+        env:
+          CACHIX_AUTH_TOKEN: '${{ secrets.CACHIX_TOKEN_X13S }}'
+
+      - name: upload to attic
+        run: |
+          attic login --set-default $ATTIC_CACHE $ATTIC_ENDPOINT $ATTIC_TOKEN
+          attic use $ATTIC_CACHE
+          attic push $ATTIC_CACHE $build_output
+        env:
+          ATTIC_ENDPOINT: ${{ vars.ATTIC_ENDPOINT }}
+          ATTIC_CACHE: ${{ vars.ATTIC_CACHE }}
+          ATTIC_TOKEN: ${{ secrets.ATTIC_KEY }}
