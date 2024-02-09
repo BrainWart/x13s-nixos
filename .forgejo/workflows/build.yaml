@@ -14,14 +14,15 @@ jobs:
         run: |
           echo "HOME=$PWD" >> "$GITHUB_ENV"
 
-      - run: |
+      - name: build all
+        run: |
           OUTPUT=$(nix build --print-out-paths .#x13s/linux .#x13s/alsa-ucm-conf .#pd-mapper .#x13s/extra-firmware)
           echo $OUTPUT
-          echo "build_output=$OUTPUT" >> "$GITHUB_ENV"
+          echo "$OUTPUT" > build.out
 
       - name: upload to cachix
         run: |
-          cachix push nixos-x13s $build_output
+          cachix push nixos-x13s $(cat build.out)
         env:
           CACHIX_AUTH_TOKEN: '${{ secrets.CACHIX_TOKEN_X13S }}'
 
@@ -29,7 +30,7 @@ jobs:
         run: |
           attic login --set-default $ATTIC_CACHE $ATTIC_ENDPOINT $ATTIC_TOKEN
           attic use $ATTIC_CACHE
-          attic push $ATTIC_CACHE $build_output
+          attic push $ATTIC_CACHE $(cat build.out)
         env:
           ATTIC_ENDPOINT: ${{ vars.ATTIC_ENDPOINT }}
           ATTIC_CACHE: ${{ vars.ATTIC_CACHE }}
