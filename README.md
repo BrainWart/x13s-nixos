@@ -4,6 +4,14 @@ This repository aims to provide easy, shared, support for Lenovo X13s on Linux.
 
 The support for this machine is constantly improving in mainline kernel and upstream packages. Eventually the goal is that this repository is no longer necessary.
 
+## Binary cache
+
+A binary cache is provided through Cachix so you can avoid re-building the kernel.
+
+https://app.cachix.org/cache/nixos-x13s
+
+Ensure you are not overriding the nixpkgs input when consuming this flake, or you may not be able to take advantags of this cache.
+
 ## Add with a flake
 
 ```nix

@@ -15,7 +15,7 @@ jobs:
           echo "HOME=$PWD" >> "$GITHUB_ENV"
 
       - run: |
-          OUTPUT=$(nix build .#x13s/linux --print-out-paths)
+          OUTPUT=$(nix build --print-out-paths .#x13s/linux .#x13s/alsa-ucm-conf .#pd-mapper .#x13s/extra-firmware)
           echo $OUTPUT
           echo "build_output=$OUTPUT" >> "$GITHUB_ENV"
 
