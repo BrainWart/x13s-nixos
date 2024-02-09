@@ -16,6 +16,7 @@ jobs:
 
       - run: |
           OUTPUT=$(nix build .#x13s/linux --print-out-paths)
+          echo $OUTPUT
           echo "build_output=$OUTPUT" >> "$GITHUB_ENV"
 
       - name: upload to cachix
