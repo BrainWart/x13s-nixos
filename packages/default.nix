@@ -5,7 +5,7 @@ let
   linux_x13s_pkg =
     { buildLinux, ... }@args:
     let
-      version = "6.8.0-rc3";
+      version = "6.8.0-rc4";
       modDirVersion = "${version}";
     in
     buildLinux (
