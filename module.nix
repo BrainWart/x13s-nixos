@@ -61,6 +61,7 @@ in
         "efi=noruntime"
         "clk_ignore_unused"
         "pd_ignore_unused"
+        "regulator_ignore_unused"
         "arm64.nopauth"
 
         # blacklist graphics in initrd so the firmware can load from disk
