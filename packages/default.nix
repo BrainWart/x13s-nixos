@@ -22,7 +22,7 @@ let
             patch = (
               pkgs.fetchurl {
                 url = "https://lore.kernel.org/lkml/20240205182810.58382-1-brgl@bgdev.pl/t.mbox.gz";
-                hash = "sha256-apwfO/bhVd8jzsHpOPFQXshzdwfg5Zcelf2vCDtlCtI=";
+                hash = "sha256-MeuDkVFSf/KqzcD92wR6U9yOJhOKmZkXsgGcOm/9l/k=";
               }
             );
             extraStructuredConfig = {
