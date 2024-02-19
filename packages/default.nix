@@ -5,7 +5,7 @@ let
   linux_x13s_pkg =
     { buildLinux, ... }@args:
     let
-      version = "6.8.0-rc4";
+      version = "6.8.0-rc5";
       modDirVersion = "${version}";
     in
     buildLinux (
@@ -22,7 +22,7 @@ let
             patch = (
               pkgs.fetchurl {
                 url = "https://lore.kernel.org/lkml/20240205182810.58382-1-brgl@bgdev.pl/t.mbox.gz";
-                hash = "sha256-MeuDkVFSf/KqzcD92wR6U9yOJhOKmZkXsgGcOm/9l/k=";
+                hash = "sha256-kplvgUGE70eVivaN59Ozj7/utgnPEkVUjC8nemyM4vU=";
               }
             );
             extraStructuredConfig = {
