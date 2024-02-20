@@ -3,39 +3,30 @@ let
   sources = import ../npins;
 
   linux_x13s_pkg =
-    { buildLinux, ... }@args:
-    let
-      version = "6.8.0-rc5";
-      modDirVersion = "${version}";
-    in
+    { version, buildLinux, ... }@args:
     buildLinux (
       args
       // {
-        inherit version modDirVersion;
+        modDirVersion = version;
 
-        src = sources.linux;
-
-        kernelPatches = (args.kernelPatches or [ ]) ++ [
-          # {
-          #   # fix resets when reading EFI vars
-          #   name = "qcom-shm-bridge-tz";
-          #   patch = (
-          #     pkgs.fetchurl {
-          #       url = "https://lore.kernel.org/lkml/20240205182810.58382-1-brgl@bgdev.pl/t.mbox.gz";
-          #       hash = "sha256-MeuDkVFSf/KqzcD92wR6U9yOJhOKmZkXsgGcOm/9l/k=";
-          #     }
-          #   );
-          #   extraStructuredConfig = {
-          #     QCOM_TZMEM_MODE_SHMBRIDGE = lib.kernel.yes;
-          #   };
-          # }
-        ];
+        kernelPatches = (args.kernelPatches or [ ]) ++ [ ];
         extraMeta.branch = lib.versions.majorMinor version;
       }
     );
 in
 rec {
-  "x13s/linux" = pkgs.callPackage linux_x13s_pkg { defconfig = "johan_defconfig"; };
+  linux_jhovold = pkgs.callPackage linux_x13s_pkg {
+    src = sources.linux-jhovold;
+    version = "6.8.0-rc5";
+    defconfig = "johan_defconfig";
+  };
+
+  linux_steev = pkgs.callPackage linux_x13s_pkg {
+    src = sources.linux-steev;
+    version = "6.7.5";
+    defconfig = "laptop_defconfig";
+  };
+
   "x13s/alsa-ucm-conf" = pkgs.alsa-ucm-conf.overrideAttrs (
     _: {
       version = sources.alsa-ucm-conf.version;

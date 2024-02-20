@@ -14,7 +14,7 @@
       "url": "https://api.github.com/repos/alsa-project/alsa-ucm-conf/tarball/v1.2.11",
       "hash": "1jcn0x6bbg69p1ygxnh1zn33sd9lpbll4bnhvkzw1fjpmw7igjkz"
     },
-    "linux": {
+    "linux-jhovold": {
       "type": "Git",
       "repository": {
         "type": "GitHub",
@@ -25,6 +25,18 @@
       "revision": "00a0ee0018ac61ec4c93536f27916ff40cfe7a99",
       "url": "https://github.com/jhovold/linux/archive/00a0ee0018ac61ec4c93536f27916ff40cfe7a99.tar.gz",
       "hash": "115yra3w4a0f4aprjb8n5gpq4xc8j7h3kql18z755jii5gd49qfr"
+    },
+    "linux-steev": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "steev",
+        "repo": "linux"
+      },
+      "branch": "lenovo-x13s-linux-6.7.y",
+      "revision": "45411854bb931cb5c989e00ded127d4fc68dfa01",
+      "url": "https://github.com/steev/linux/archive/45411854bb931cb5c989e00ded127d4fc68dfa01.tar.gz",
+      "hash": "19wa6ihmjp748vj5qqzy1kqz4bhxy4k81v90kbca9y15l6waqm6q"
     }
   },
   "version": 3
