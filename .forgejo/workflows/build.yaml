@@ -16,7 +16,7 @@ jobs:
 
       - name: build all
         run: |
-          OUTPUT=$(nix build --print-out-paths .#linux_jhovold .#linux_steev .#x13s/alsa-ucm-conf .#pd-mapper .#x13s/extra-firmware)
+          OUTPUT=$(nix build --print-out-paths --keep-going .#linux_jhovold .#linux_steev .#x13s/alsa-ucm-conf .#pd-mapper .#x13s/extra-firmware)
           echo $OUTPUT
           echo "$OUTPUT" > build.out
 
