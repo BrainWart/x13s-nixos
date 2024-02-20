@@ -10,7 +10,7 @@ A binary cache is provided through Cachix so you can avoid re-building the kerne
 
 https://app.cachix.org/cache/nixos-x13s
 
-Ensure you are not overriding the nixpkgs input when consuming this flake, or you may not be able to take advantags of this cache.
+Ensure you are not overriding the nixpkgs input when consuming this flake, or you may not be able to take advantages of this cache.
 
 ## Add with a flake
 
@@ -30,6 +30,13 @@ Ensure you are not overriding the nixpkgs input when consuming this flake, or yo
           inputs.nixos-x13s.nixosModules.default
           {
             nixos-x13s.enable = true;
+            nixos-x13s.kernel = "jhovold"; # jhovold is default, but steev and mainline supported
+
+            # install multiple kernels! note this increases eval time for each specialization
+            specialisation = {
+              mainline.configuration.nixos-x13s.kernel = "mainline";
+              steev.configuration.nixos-x13s.kernel = "steev";
+            };
 
             # allow unfree firmware
             nixpkgs.config.allowUnfree = true;

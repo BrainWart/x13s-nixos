@@ -10,14 +10,18 @@ let
   x13sPackages = import ./packages/default.nix { inherit lib pkgs; };
 
   dtbName = "sc8280xp-lenovo-thinkpad-x13s.dtb";
-  linuxPackages_x13s = pkgs.linuxPackagesFor (
-    if cfg.kernel == "jhovold" then
-      x13sPackages.linux_jhovold
-    else if cfg.kernel == "steev" then
-      x13sPackages.linux_steev
-    else
+  linuxPackages_x13s =
+    if cfg.kernel == "mainline" then
       pkgs.linuxPackages_latest
-  );
+    else
+      pkgs.linuxPackagesFor (
+        if cfg.kernel == "jhovold" then
+          x13sPackages.linux_jhovold
+        else if cfg.kernel == "steev" then
+          x13sPackages.linux_steev
+        else
+          throw "Unsupported kernel"
+      );
   dtb = "${linuxPackages_x13s.kernel}/dtbs/qcom/${dtbName}";
 
   alsa-ucm-conf-env.ALSA_CONFIG_UCM2 = "${x13sPackages."x13s/alsa-ucm-conf"}/share/alsa/ucm2";
