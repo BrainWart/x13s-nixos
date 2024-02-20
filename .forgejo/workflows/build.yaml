@@ -25,13 +25,3 @@ jobs:
           cachix push nixos-x13s $(cat build.out)
         env:
           CACHIX_AUTH_TOKEN: '${{ secrets.CACHIX_TOKEN_X13S }}'
-
-      - name: upload to attic
-        run: |
-          attic login --set-default $ATTIC_CACHE $ATTIC_ENDPOINT $ATTIC_TOKEN
-          attic use $ATTIC_CACHE
-          attic push $ATTIC_CACHE $(cat build.out)
-        env:
-          ATTIC_ENDPOINT: ${{ vars.ATTIC_ENDPOINT }}
-          ATTIC_CACHE: ${{ vars.ATTIC_CACHE }}
-          ATTIC_TOKEN: ${{ secrets.ATTIC_KEY }}
