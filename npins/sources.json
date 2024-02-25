@@ -14,6 +14,18 @@
       "url": "https://api.github.com/repos/alsa-project/alsa-ucm-conf/tarball/v1.2.11",
       "hash": "1jcn0x6bbg69p1ygxnh1zn33sd9lpbll4bnhvkzw1fjpmw7igjkz"
     },
+    "linux-jhovold-6_7": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "jhovold",
+        "repo": "linux"
+      },
+      "branch": "wip/sc8280xp-v6.7",
+      "revision": "b929f8eed9ad1f156cae932dea741bc4383e6367",
+      "url": "https://github.com/jhovold/linux/archive/b929f8eed9ad1f156cae932dea741bc4383e6367.tar.gz",
+      "hash": "12j92hns95rviajyxpj57hgdr1k9lrd6rzxng87m4v4m7pi8v51l"
+    },
     "linux-jhovold": {
       "type": "Git",
       "repository": {
