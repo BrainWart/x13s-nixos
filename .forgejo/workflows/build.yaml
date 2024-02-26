@@ -16,7 +16,9 @@ jobs:
 
       - name: build all
         run: |
-          OUTPUT=$(nix build --print-out-paths --keep-going .#linux_jhovold .#linux_steev .#x13s/alsa-ucm-conf .#pd-mapper .#x13s/extra-firmware)
+          set -x
+          TARGETS=$(nix eval .#packages.aarch64-linux --apply 'builtins.attrNames' --json | jq '. | map(".#" + .) | join(" ")' -r)
+          OUTPUT=$(nix build --print-out-paths --keep-going $TARGETS)
           echo $OUTPUT
           echo "$OUTPUT" > build.out
 
