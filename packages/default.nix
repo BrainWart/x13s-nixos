@@ -67,14 +67,6 @@ rec {
     };
   };
 
-  "x13s/alsa-ucm-conf" = pkgs.alsa-ucm-conf.overrideAttrs (
-    _: {
-      version = sources.alsa-ucm-conf.version;
-      src = sources.alsa-ucm-conf;
-      patches = [ ];
-    }
-  );
-
   pd-mapper = pkgs.callPackage ./pd-mapper { inherit qrtr; };
   qrtr = pkgs.callPackage ./qrtr { };
 

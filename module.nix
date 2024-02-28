@@ -25,8 +25,6 @@ let
           throw "Unsupported kernel"
       );
   dtb = "${linuxPackages_x13s.kernel}/dtbs/qcom/${dtbName}";
-
-  alsa-ucm-conf-env.ALSA_CONFIG_UCM2 = "${x13sPackages."x13s/alsa-ucm-conf"}/share/alsa/ucm2";
 in
 {
   options.nixos-x13s = {
@@ -63,10 +61,6 @@ in
         Restart = "always";
       };
     };
-
-    environment.sessionVariables = alsa-ucm-conf-env;
-    systemd.user.services.pipewire.environment = alsa-ucm-conf-env;
-    systemd.user.services.wireplumber.environment = alsa-ucm-conf-env;
 
     boot = {
       loader.efi.canTouchEfiVariables = true;
