@@ -114,25 +114,6 @@ in
 
     nixpkgs.overlays = [
       (_: super: {
-        linux-firmware =
-          let
-            source = {
-              revision = "5217b76bed90ae86d5f3fe9a5f4e2301868cdd02";
-              sourceHash = "sha256-Te5AioCoN2LuUwxuxjoarpihaZQ1uO/FRfVrkNVGwEQ=";
-              outputHash = "sha256-F1f4gcGU3ATnDEFoHipS25qqBD8XsKfrCDzaFbNWgXI=";
-            };
-          in
-          super.linux-firmware.overrideAttrs (
-            _: {
-              version = "20240205-unstable";
-              src = pkgs.fetchzip {
-                url = "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-${source.revision}.tar.gz";
-                hash = source.sourceHash;
-              };
-              outputHash = source.outputHash;
-            }
-          );
-
         # don't try and use zfs
         zfs = super.zfs.overrideAttrs (_: { meta.platforms = [ ]; });
 
