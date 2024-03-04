@@ -46,9 +46,9 @@
         "repo": "linux"
       },
       "branch": "lenovo-x13s-linux-6.7.y",
-      "revision": "45411854bb931cb5c989e00ded127d4fc68dfa01",
-      "url": "https://github.com/steev/linux/archive/45411854bb931cb5c989e00ded127d4fc68dfa01.tar.gz",
-      "hash": "19wa6ihmjp748vj5qqzy1kqz4bhxy4k81v90kbca9y15l6waqm6q"
+      "revision": "5e9c982da90e7546586b56ff92e785c8d9edd14b",
+      "url": "https://github.com/steev/linux/archive/5e9c982da90e7546586b56ff92e785c8d9edd14b.tar.gz",
+      "hash": "1ig1rrgq93gwv7jj21hwdcpkdw0v4ba3v2k3j3jj5z6r97z6xcag"
     }
   },
   "version": 3
