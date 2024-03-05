@@ -17,7 +17,7 @@ in
 rec {
   linux_jhovold = pkgs.callPackage linux_x13s_pkg {
     src = sources.linux-jhovold;
-    version = "6.8.0-rc6";
+    version = "6.8.0-rc7";
     defconfig = "johan_defconfig";
   };
 
@@ -29,7 +29,7 @@ rec {
 
   linux_steev = pkgs.callPackage linux_x13s_pkg {
     src = sources.linux-steev;
-    version = "6.7.5";
+    version = "6.7.7";
     defconfig = "laptop_defconfig";
 
     # fix build using extra config from
