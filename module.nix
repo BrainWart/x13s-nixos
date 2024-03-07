@@ -25,6 +25,7 @@ let
           throw "Unsupported kernel"
       );
   dtb = "${linuxPackages_x13s.kernel}/dtbs/qcom/${dtbName}";
+  dtbEfiPath = "dtbs/${cfg.kernel}/${config.boot.kernelPackages.kernel.version}/${dtbName}";
 in
 {
   options.nixos-x13s = {
@@ -66,14 +67,14 @@ in
       loader.efi.canTouchEfiVariables = true;
       loader.systemd-boot.enable = lib.mkDefault true;
       loader.systemd-boot.extraFiles = {
-        "${dtbName}" = dtb;
+        "${dtbEfiPath}" = dtb;
       };
 
       kernelPackages = linuxPackages_x13s;
 
       kernelParams = [
         # needed to boot
-        "dtb=${dtbName}"
+        "dtb=${dtbEfiPath}"
 
         # jhovold recommended
         "efi=noruntime"
@@ -115,7 +116,9 @@ in
     nixpkgs.overlays = [
       (_: super: {
         # don't try and use zfs
-        zfs = super.zfs.overrideAttrs (_: { meta.platforms = [ ]; });
+        zfs = super.zfs.overrideAttrs (_: {
+          meta.platforms = [ ];
+        });
 
         # allow missing modules
         makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
