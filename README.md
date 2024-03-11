@@ -34,6 +34,7 @@ Ensure you are not overriding the nixpkgs input when consuming this flake, or yo
 
             # install multiple kernels! note this increases eval time for each specialization
             specialisation = {
+              # note that activation of each specialization is required to copy the dtb to the EFI, and thus boot
               mainline.configuration.nixos-x13s.kernel = "mainline";
               steev.configuration.nixos-x13s.kernel = "steev";
             };
