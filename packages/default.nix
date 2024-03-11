@@ -15,9 +15,11 @@ let
     );
 in
 rec {
-  linux_jhovold = pkgs.callPackage linux_x13s_pkg {
+  linux_jhovold = linux_jhovold_6_8;
+
+  linux_jhovold_6_8 = pkgs.callPackage linux_x13s_pkg {
     src = sources.linux-jhovold;
-    version = "6.8.0-rc7";
+    version = "6.8.0";
     defconfig = "johan_defconfig";
   };
 
