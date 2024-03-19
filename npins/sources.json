@@ -26,18 +26,6 @@
       "url": "https://github.com/jhovold/linux/archive/5fbfdc8826150355307394e193c168b45adfa316.tar.gz",
       "hash": "1crapwv9fbyffpc8mh8hniawvidhphdxdvx1nssylxk3zr9gcbw4"
     },
-    "linux-jhovold-6_7": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "jhovold",
-        "repo": "linux"
-      },
-      "branch": "wip/sc8280xp-v6.7",
-      "revision": "b929f8eed9ad1f156cae932dea741bc4383e6367",
-      "url": "https://github.com/jhovold/linux/archive/b929f8eed9ad1f156cae932dea741bc4383e6367.tar.gz",
-      "hash": "12j92hns95rviajyxpj57hgdr1k9lrd6rzxng87m4v4m7pi8v51l"
-    },
     "linux-steev": {
       "type": "Git",
       "repository": {
