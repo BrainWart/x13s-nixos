@@ -1,19 +1,5 @@
 {
   "pins": {
-    "alsa-ucm-conf": {
-      "type": "GitRelease",
-      "repository": {
-        "type": "GitHub",
-        "owner": "alsa-project",
-        "repo": "alsa-ucm-conf"
-      },
-      "pre_releases": false,
-      "version_upper_bound": null,
-      "version": "v1.2.11",
-      "revision": "c40b8cc795c8fe4c83582857d5e317f18a4c065e",
-      "url": "https://api.github.com/repos/alsa-project/alsa-ucm-conf/tarball/v1.2.11",
-      "hash": "1jcn0x6bbg69p1ygxnh1zn33sd9lpbll4bnhvkzw1fjpmw7igjkz"
-    },
     "linux-jhovold": {
       "type": "Git",
       "repository": {
@@ -25,17 +11,6 @@
       "revision": "5fbfdc8826150355307394e193c168b45adfa316",
       "url": "https://github.com/jhovold/linux/archive/5fbfdc8826150355307394e193c168b45adfa316.tar.gz",
       "hash": "1crapwv9fbyffpc8mh8hniawvidhphdxdvx1nssylxk3zr9gcbw4"
-    },
-    "linux-steev": {
-      "type": "Git",
-      "repository": {
-        "type": "Git",
-        "url": "https://github.com/steev/linux.git"
-      },
-      "branch": "lenovo-x13s-linux-6.8.y",
-      "revision": "f1845c1b1a370fae44589f9ed1e9861ff713f0b0",
-      "url": null,
-      "hash": "1pgvc2gyjfd30b380h53m5bzjngchk6f7dcfnm4viqajsv4vmh4v"
     }
   },
   "version": 3

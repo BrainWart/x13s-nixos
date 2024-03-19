@@ -17,10 +17,6 @@ let
       pkgs.linuxPackagesFor (
         if cfg.kernel == "jhovold" then
           x13sPackages.linux_jhovold
-        else if cfg.kernel == "jhovold_6_7" then
-          x13sPackages.linux_jhovold_6_7
-        else if cfg.kernel == "steev" then
-          x13sPackages.linux_steev
         else
           throw "Unsupported kernel"
       );
@@ -39,11 +35,9 @@ in
     kernel = lib.mkOption {
       type = lib.types.enum [
         "jhovold"
-        "jhovold_6_7"
         "mainline"
-        "steev"
       ];
-      description = "which patched kernel to use. jhovold is the latest RC, steev is the latest patched release, and mainline is nixos latest";
+      description = "which patched kernel to use. jhovold is the latest RC, and mainline is nixos latest";
       default = "jhovold";
     };
   };
