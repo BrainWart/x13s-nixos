@@ -11,30 +11,6 @@
       "revision": "ee2ccfe6dccbd8e7599e23c2992d471c4e3da58d",
       "url": "https://github.com/jhovold/linux/archive/ee2ccfe6dccbd8e7599e23c2992d471c4e3da58d.tar.gz",
       "hash": "0yybngki79wx1kg6qa2ph1p6gwzicl8cdm5yyzbih484jylg56m8"
-    },
-    "linux-jhovold-6_7": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "jhovold",
-        "repo": "linux"
-      },
-      "branch": "wip/sc8280xp-v6.7",
-      "revision": "b929f8eed9ad1f156cae932dea741bc4383e6367",
-      "url": "https://github.com/jhovold/linux/archive/b929f8eed9ad1f156cae932dea741bc4383e6367.tar.gz",
-      "hash": "12j92hns95rviajyxpj57hgdr1k9lrd6rzxng87m4v4m7pi8v51l"
-    },
-    "linux-steev": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "steev",
-        "repo": "linux"
-      },
-      "branch": "lenovo-x13s-linux-6.7.y",
-      "revision": "5e9c982da90e7546586b56ff92e785c8d9edd14b",
-      "url": "https://github.com/steev/linux/archive/5e9c982da90e7546586b56ff92e785c8d9edd14b.tar.gz",
-      "hash": "1ig1rrgq93gwv7jj21hwdcpkdw0v4ba3v2k3j3jj5z6r97z6xcag"
     }
   },
   "version": 3
