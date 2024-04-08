@@ -12,6 +12,19 @@ https://app.cachix.org/cache/nixos-x13s
 
 Ensure you are not overriding the nixpkgs input when consuming this flake, or you may not be able to take advantages of this cache.
 
+NixOS configuration example:
+
+```nix
+  nix.settings = {
+    substituters = [
+      "https://nixos-x13s.cachix.org"
+    ];
+    trusted-public-keys = [
+      "nixos-x13s.cachix.org-1:SzroHbidolBD3Sf6UusXp12YZ+a5ynWv0RtYF0btFos="
+    ];
+  };
+```
+
 ## Add with a flake
 
 ```nix
@@ -52,4 +65,19 @@ Ensure you are not overriding the nixpkgs input when consuming this flake, or yo
 
 ## Add using not a flake
 
-Not documented, but feel free to submit a PR.
+Clone the repository:
+
+```
+git clone https://codeberg.org/adamcstephens/nixos-x13s /etc/nixos/nixos-x13s
+```
+
+Then reference the module in your `configuration.nix` and use the module as documented in the flake example above:
+
+```nix
+  imports =
+    [
+      ./nixos-x13s/module.nix
+    ];
+  nixos-x13s.enable = true;
+  ...
+```
