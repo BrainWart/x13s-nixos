@@ -19,7 +19,7 @@ rec {
 
   linux_jhovold_6_9 = pkgs.callPackage linux_x13s_pkg {
     src = sources.linux-jhovold;
-    version = "6.9.0-rc4";
+    version = "6.9.0-rc5";
     defconfig = "johan_defconfig";
   };
 
