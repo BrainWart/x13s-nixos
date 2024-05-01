@@ -81,3 +81,15 @@ Then reference the module in your `configuration.nix` and use the module as docu
   nixos-x13s.enable = true;
   ...
 ```
+
+## UEFI Update ISO
+
+This repository provides a package which can output the USB UEFI Update ISO. This will be updated as Lenovo releases new versions.
+
+```
+nix build .#uefi-usbiso
+
+dd if=result/usbdisk-*.iso of=/path/to/usb/disk
+```
+
+Reboot, select USB drive from F12 boot menu, follow wizard.
