@@ -31,9 +31,9 @@
             nixos-x13s.kernel = "jhovold"; # jhovold is default, but mainline supported
 
             # install multiple kernels! note this increases eval time for each specialization
-            specialisation = {
-              mainline.configuration.nixos-x13s.kernel = "mainline";
-            };
+            # specialisation = {
+            #   mainline.configuration.nixos-x13s.kernel = "mainline";
+            # };
 
             # allow unfree firmware
             nixpkgs.config.allowUnfree = true;
