@@ -1,3 +1,4 @@
+{ dtbName }:
 {
   config,
   lib,
@@ -9,16 +10,12 @@ let
 
   x13sPackages = import ./packages/default.nix { inherit lib pkgs; };
 
-  dtbName = "sc8280xp-lenovo-thinkpad-x13s.dtb";
   linuxPackages_x13s =
     if cfg.kernel == "mainline" then
       pkgs.linuxPackages_latest
     else
       pkgs.linuxPackagesFor (
-        if cfg.kernel == "jhovold" then
-          x13sPackages.linux_jhovold
-        else
-          throw "Unsupported kernel"
+        if cfg.kernel == "jhovold" then x13sPackages.linux_jhovold else throw "Unsupported kernel"
       );
   dtb = "${linuxPackages_x13s.kernel}/dtbs/qcom/${dtbName}";
   dtbEfiPath = "dtbs/${cfg.kernel}/${config.boot.kernelPackages.kernel.version}/${dtbName}";
