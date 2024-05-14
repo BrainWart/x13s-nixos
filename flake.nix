@@ -20,7 +20,11 @@
       perSystem =
         { pkgs, ... }:
         {
-          devShells.default = pkgs.mkShellNoCC { packages = [ pkgs.npins ]; };
+          devShells = {
+            default = pkgs.mkShellNoCC { packages = [ pkgs.npins ]; };
+            ci = pkgs.mkShellNoCC { packages = [ pkgs.cachix ]; };
+          };
+
           packages = {
             iso = self.nixosConfigurations.iso.config.system.build.isoImage;
           };
