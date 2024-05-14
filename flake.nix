@@ -56,13 +56,6 @@
           modules = [
 
             self.nixosModules.default
-            {
-              nixos-x13s = {
-                enable = true;
-                kernel = "mainline";
-              };
-            }
-
             (
               { modulesPath, config, ... }:
               let
@@ -70,7 +63,9 @@
               in
               {
                 imports = [ "${toString modulesPath}/installer/cd-dvd/iso-image.nix" ];
+
                 nixpkgs.config.allowUnfree = true;
+                nixos-x13s.enable = true;
                 isoImage = {
                   makeEfiBootable = true;
                   makeUsbBootable = true;
@@ -78,7 +73,7 @@
                   contents = [
                     {
                       source = dtb;
-                      target = "/" + dtbName;
+                      target = "/x13s.dtb";
                     }
                   ];
                 };
