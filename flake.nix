@@ -20,9 +20,16 @@
       perSystem =
         { pkgs, ... }:
         {
-          devShells = {
-            default = pkgs.mkShellNoCC { packages = [ pkgs.npins ]; };
-            ci = pkgs.mkShellNoCC { packages = [ pkgs.cachix ]; };
+          devShells = rec {
+            default = pkgs.mkShellNoCC { packages = [ pkgs.npins ] ++ ci.nativeBuildInputs; };
+
+            ci = pkgs.mkShellNoCC {
+              packages = [
+                pkgs.cachix
+                pkgs.jq
+                pkgs.just
+              ];
+            };
           };
 
           packages = {
