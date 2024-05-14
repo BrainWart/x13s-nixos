@@ -76,7 +76,12 @@
                 imports = [ "${toString modulesPath}/installer/cd-dvd/iso-image.nix" ];
 
                 nixpkgs.config.allowUnfree = true;
-                nixos-x13s.enable = true;
+
+                nixos-x13s = {
+                  enable = true;
+                  bluetoothMac = "02:68:b3:29:da:98";
+                };
+
                 isoImage = {
                   makeEfiBootable = true;
                   makeUsbBootable = true;
