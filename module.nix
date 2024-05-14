@@ -26,7 +26,7 @@ in
 
     bluetoothMac = lib.mkOption {
       type = lib.types.str;
-      description = "mac address to set on boot";
+      description = "Bluetooth MAC address to set on boot";
     };
 
     kernel = lib.mkOption {
@@ -34,7 +34,7 @@ in
         "jhovold"
         "mainline"
       ];
-      description = "which patched kernel to use. jhovold is the latest RC, and mainline is nixos latest";
+      description = "Which patched kernel to use. jhovold is the latest RC or release with some x13s specific patches, and mainline is nixos latest";
       default = "jhovold";
     };
   };
@@ -119,17 +119,16 @@ in
     # default is performance
     powerManagement.cpuFreqGovernor = "ondemand";
 
-    systemd.services.bluetooth = {
+    systemd.services.bluetooth-x13s-mac = {
+      wantedBy = [ "multi-user.target" ];
+      before = [ "bluetooth.service" ];
+      requiredBy = [ "bluetooth.service" ];
+
       serviceConfig = {
-        # disabled because btmgmt call hangs
-        # ExecStartPre = [
-        #   ""
-        #   "${pkgs.util-linux}/bin/rfkill block bluetooth"
-        #   "${pkgs.bluez5-experimental}/bin/btmgmt public-addr ${cfg.bluetoothMac}"
-        #   "${pkgs.util-linux}/bin/rfkill unblock bluetooth"
-        # ];
-        RestartSec = 5;
-        Restart = "on-failure";
+        Type = "oneshot";
+        RemainAfterExit = true;
+        StandardInput = "tty";
+        ExecStart = "${pkgs.bluez5-experimental}/bin/btmgmt public-addr ${cfg.bluetoothMac}";
       };
     };
   };
