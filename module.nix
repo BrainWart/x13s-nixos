@@ -18,7 +18,7 @@ let
         if cfg.kernel == "jhovold" then x13sPackages.linux_jhovold else throw "Unsupported kernel"
       );
   dtb = "${linuxPackages_x13s.kernel}/dtbs/qcom/${dtbName}";
-  dtbEfiPath = "dtbs/${cfg.kernel}/${config.boot.kernelPackages.kernel.version}/${dtbName}";
+  dtbEfiPath = "dtbs/x13s.dtb";
 in
 {
   options.nixos-x13s = {
