@@ -2,6 +2,7 @@
 {
   config,
   lib,
+  options,
   pkgs,
   ...
 }:
@@ -40,7 +41,14 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ pkgs.efibootmgr ];
+    environment.systemPackages = [
+      pkgs.efibootmgr
+      (x13sPackages.uncompressed-firmware.override {
+        firmwareFilesList = lib.flatten options.hardware.firmware.definitions;
+      })
+    ];
+
+    environment.pathsToLink = [ "/share/uncompressed-firmware" ];
 
     hardware.enableAllFirmware = true;
     hardware.firmware = [ x13sPackages."x13s/extra-firmware" ];

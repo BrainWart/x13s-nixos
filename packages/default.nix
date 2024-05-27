@@ -27,4 +27,6 @@ rec {
   qrtr = pkgs.callPackage ./qrtr { };
 
   "x13s/extra-firmware" = pkgs.callPackage ./extra-firmware.nix { };
+
+  uncompressed-firmware = pkgs.callPackage ./uncompressed-firmware.nix { };
 }
