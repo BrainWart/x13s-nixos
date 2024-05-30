@@ -112,6 +112,14 @@ in
       };
     };
 
+    # https://github.com/jhovold/linux/wiki/X13s#modem
+    networking.networkmanager.fccUnlockScripts = [
+      {
+        id = "105b:e0c3";
+        path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/105b";
+      }
+    ];
+
     nixpkgs.overlays = [
       (_: super: {
         # don't try and use zfs
@@ -126,6 +134,11 @@ in
 
     # default is performance
     powerManagement.cpuFreqGovernor = "ondemand";
+
+    # https://github.com/jhovold/linux/wiki/X13s#camera
+    services.udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="system", GROUP="video", MODE="0660"
+    '';
 
     systemd.services.bluetooth-x13s-mac = {
       wantedBy = [ "multi-user.target" ];
