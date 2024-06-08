@@ -11,7 +11,7 @@ steps:
   - name: build
     image: bash
     commands:
-      - nix develop .#ci -c just -- build
+      - tini -s nix -- develop .#ci -c just -- build
 
   - name: upload
     image: bash
