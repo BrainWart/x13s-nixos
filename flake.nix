@@ -28,6 +28,11 @@
                 pkgs.cachix
                 pkgs.jq
                 pkgs.just
+                (pkgs.python3.withPackages (py: [
+                  py.PyGithub
+                  py.packaging
+                ]))
+                pkgs.pyright
               ];
             };
           };
