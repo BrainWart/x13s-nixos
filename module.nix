@@ -79,8 +79,8 @@ in
         "efi=noruntime"
         "clk_ignore_unused"
         "pd_ignore_unused"
-        "regulator_ignore_unused"
         "arm64.nopauth"
+        # "regulator_ignore_unused" # allows for > 30 sec to load msm, at the potential cost of power
 
         # blacklist graphics in initrd so the firmware can load from disk
         "rd.driver.blacklist=msm"
