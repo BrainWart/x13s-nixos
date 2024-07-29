@@ -7,10 +7,10 @@
         "owner": "jhovold",
         "repo": "linux"
       },
-      "branch": "wip/sc8280xp-6.10",
-      "revision": "f0239008542ebdcd4a94755124b5700649df5c39",
-      "url": "https://github.com/jhovold/linux/archive/f0239008542ebdcd4a94755124b5700649df5c39.tar.gz",
-      "hash": "1x34i14b8xhzvny24bmrxagwbra2m0i194ymy11ipgjgsxaarxlb"
+      "branch": "wip/sc8280xp-6.11-rc1",
+      "revision": "9c6b81022b9c277d65c68e25f4cfd52f33ef8f28",
+      "url": "https://github.com/jhovold/linux/archive/9c6b81022b9c277d65c68e25f4cfd52f33ef8f28.tar.gz",
+      "hash": "13c6r67iy8y750f8zpals4l941lshxx3w3ar1ss9dizsqjsghdsr"
     }
   },
   "version": 3
