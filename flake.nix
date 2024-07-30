@@ -49,21 +49,19 @@
           system = "aarch64-linux";
           modules = [
             self.nixosModules.default
-            {
-              nixos-x13s.enable = true;
-              nixos-x13s.kernel = "jhovold"; # jhovold is default, but mainline supported
+            (
+              { config, pkgs, ... }:
+              {
+                nixos-x13s.enable = true;
+                nixos-x13s.kernel = "jhovold"; # jhovold is default, but mainline supported
 
-              # install multiple kernels! note this increases eval time for each specialization
-              # specialisation = {
-              #   mainline.configuration.nixos-x13s.kernel = "mainline";
-              # };
+                # allow unfree firmware
+                nixpkgs.config.allowUnfree = true;
 
-              # allow unfree firmware
-              nixpkgs.config.allowUnfree = true;
-
-              # define your fileSystems
-              fileSystems."/".device = "/dev/notreal";
-            }
+                # define your fileSystems
+                fileSystems."/".device = "/dev/notreal";
+              }
+            )
           ];
         };
 
@@ -73,12 +71,41 @@
 
             self.nixosModules.default
             (
-              { modulesPath, config, ... }:
+              {
+                modulesPath,
+                config,
+                lib,
+                pkgs,
+                ...
+              }:
               let
                 dtb = "${config.boot.kernelPackages.kernel}/dtbs/qcom/${dtbName}";
+                image = import "${inputs.nixpkgs}/nixos/lib/make-disk-image.nix" {
+                  inherit config lib pkgs;
+
+                  name = "nixos-x13s-bootstrap";
+                  diskSize = "auto";
+                  format = "raw";
+                  partitionTableType = "efi";
+                  copyChannel = false;
+                };
+
               in
               {
                 imports = [ "${toString modulesPath}/installer/cd-dvd/iso-image.nix" ];
+
+                hardware.deviceTree = {
+                  enable = true;
+                  name = "qcom/${dtbName}";
+                };
+
+                system.build.bootstrap-image = image;
+
+                boot.initrd.systemd.enable = true;
+                boot.initrd.systemd.emergencyAccess = true;
+                boot.loader.grub.enable = false;
+                boot.loader.systemd-boot.enable = true;
+                boot.loader.systemd-boot.graceful = true;
 
                 nixpkgs.config.allowUnfree = true;
 
