@@ -21,10 +21,5 @@ rec {
     defconfig = "johan_defconfig";
   };
 
-  pd-mapper = pkgs.callPackage ./pd-mapper { inherit qrtr; };
-  qrtr = pkgs.callPackage ./qrtr { };
-
   "x13s/extra-firmware" = pkgs.callPackage ./extra-firmware.nix { };
-
-  uncompressed-firmware = pkgs.callPackage ./uncompressed-firmware.nix { };
 }

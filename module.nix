@@ -41,26 +41,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [
-      pkgs.efibootmgr
-      (x13sPackages.uncompressed-firmware.override {
-        firmwareFilesList = lib.flatten options.hardware.firmware.definitions;
-      })
-    ];
-
-    environment.pathsToLink = [ "/share/uncompressed-firmware" ];
+    environment.systemPackages = [ pkgs.efibootmgr ];
 
     hardware.enableAllFirmware = true;
     hardware.firmware = [ x13sPackages."x13s/extra-firmware" ];
-
-    systemd.services.pd-mapper = {
-      wantedBy = [ "multi-user.target" ];
-
-      serviceConfig = {
-        ExecStart = "${lib.getExe x13sPackages.pd-mapper}";
-        Restart = "always";
-      };
-    };
 
     boot = {
       loader.efi.canTouchEfiVariables = true;
