@@ -36,10 +36,6 @@
               ];
             };
           };
-
-          packages = {
-            iso = self.nixosConfigurations.iso.config.system.build.isoImage;
-          };
         };
 
       flake.nixosModules.default = import ./module.nix { inherit dtbName; };
