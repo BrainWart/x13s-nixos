@@ -79,7 +79,6 @@
                 ...
               }:
               let
-                dtb = "${config.boot.kernelPackages.kernel}/dtbs/qcom/${dtbName}";
                 image = import "${inputs.nixpkgs}/nixos/lib/make-disk-image.nix" {
                   inherit config lib pkgs;
 
@@ -92,8 +91,6 @@
 
               in
               {
-                imports = [ "${toString modulesPath}/installer/cd-dvd/iso-image.nix" ];
-
                 hardware.deviceTree = {
                   enable = true;
                   name = "qcom/${dtbName}";
@@ -101,11 +98,18 @@
 
                 system.build.bootstrap-image = image;
 
-                boot.initrd.systemd.enable = true;
-                boot.initrd.systemd.emergencyAccess = true;
-                boot.loader.grub.enable = false;
-                boot.loader.systemd-boot.enable = true;
-                boot.loader.systemd-boot.graceful = true;
+                boot = {
+                  initrd = {
+                    systemd.enable = true;
+                    systemd.emergencyAccess = true;
+                  };
+
+                  loader = {
+                    grub.enable = false;
+                    systemd-boot.enable = true;
+                    systemd-boot.graceful = true;
+                  };
+                };
 
                 nixpkgs.config.allowUnfree = true;
 
@@ -114,16 +118,16 @@
                   bluetoothMac = "02:68:b3:29:da:98";
                 };
 
-                isoImage = {
-                  makeEfiBootable = true;
-                  makeUsbBootable = true;
-
-                  contents = [
-                    {
-                      source = dtb;
-                      target = "/x13s.dtb";
-                    }
-                  ];
+                fileSystems = {
+                  "/boot" = {
+                    fsType = "vfat";
+                    device = "/dev/disk/by-label/ESP";
+                  };
+                  "/" = {
+                    device = "/dev/disk/by-label/nixos";
+                    fsType = "ext4";
+                    autoResize = true;
+                  };
                 };
               }
             )

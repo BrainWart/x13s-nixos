@@ -20,6 +20,21 @@ let
       );
   dtb = "${linuxPackages_x13s.kernel}/dtbs/qcom/${dtbName}";
   dtbEfiPath = "dtbs/x13s.dtb";
+
+  modulesClosure = pkgs.makeModulesClosure {
+    rootModules = config.boot.initrd.availableKernelModules ++ config.boot.initrd.kernelModules;
+    kernel = config.system.modulesTree;
+    firmware = config.hardware.firmware;
+    allowMissing = false;
+  };
+
+  modulesWithExtra = pkgs.symlinkJoin {
+    name = "modules-closure";
+    paths = [
+      modulesClosure
+      x13sPackages.graphics-firmware
+    ];
+  };
 in
 {
   options.nixos-x13s = {
@@ -44,9 +59,14 @@ in
     environment.systemPackages = [ pkgs.efibootmgr ];
 
     hardware.enableAllFirmware = true;
-    hardware.firmware = [ x13sPackages."x13s/extra-firmware" ];
+    hardware.firmware = lib.mkBefore [ x13sPackages.graphics-firmware ];
 
     boot = {
+      initrd.systemd.enable = true;
+      initrd.systemd.contents = {
+        "/lib".source = lib.mkForce "${modulesWithExtra}/lib";
+      };
+
       loader.efi.canTouchEfiVariables = true;
       loader.systemd-boot.enable = lib.mkDefault true;
       loader.systemd-boot.extraFiles = {
@@ -65,9 +85,6 @@ in
         "pd_ignore_unused"
         "arm64.nopauth"
         # "regulator_ignore_unused" # allows for > 30 sec to load msm, at the potential cost of power
-
-        # blacklist graphics in initrd so the firmware can load from disk
-        "rd.driver.blacklist=msm"
       ];
 
       initrd = {
@@ -91,7 +108,7 @@ in
           "dispcc_sc8280xp"
           "phy_qcom_edp"
           "panel-edp"
-          # "msm"
+          "msm"
         ];
       };
     };
