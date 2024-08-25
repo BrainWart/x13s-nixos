@@ -1,5 +1,8 @@
 # nixos x13s
 
+> [!CAUTION]
+> This project is unmaintained.
+
 This repository aims to provide easy, shared, support for Lenovo X13s on Linux.
 
 The support for this machine is constantly improving in mainline kernel and upstream packages. Eventually the goal is that this repository is no longer necessary.

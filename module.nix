@@ -56,6 +56,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = false;
+        message = "adamcstephens/nixos-x13s is no longer maintained";
+      }
+    ];
+
     environment.systemPackages = [ pkgs.efibootmgr ];
 
     hardware.enableAllFirmware = true;
