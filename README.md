@@ -1,32 +1,8 @@
 # nixos x13s
 
-> [!CAUTION]
-> This project is unmaintained.
-
 This repository aims to provide easy, shared, support for Lenovo X13s on Linux.
 
 The support for this machine is constantly improving in mainline kernel and upstream packages. Eventually the goal is that this repository is no longer necessary.
-
-## Binary cache
-
-A binary cache is provided through Cachix so you can avoid re-building the kernel.
-
-https://app.cachix.org/cache/nixos-x13s
-
-Ensure you are not overriding the nixpkgs input when consuming this flake, or you may not be able to take advantages of this cache.
-
-NixOS configuration example:
-
-```nix
-  nix.settings = {
-    substituters = [
-      "https://nixos-x13s.cachix.org"
-    ];
-    trusted-public-keys = [
-      "nixos-x13s.cachix.org-1:SzroHbidolBD3Sf6UusXp12YZ+a5ynWv0RtYF0btFos="
-    ];
-  };
-```
 
 ## Add with a flake
 
@@ -34,7 +10,7 @@ NixOS configuration example:
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-x13s.url = "git+https://codeberg.org/adamcstephens/nixos-x13s";
+    nixos-x13s.url = "github:BrainWart/x13s-nixos";
   };
 
   outputs =
@@ -71,7 +47,7 @@ NixOS configuration example:
 Clone the repository:
 
 ```
-git clone https://codeberg.org/adamcstephens/nixos-x13s /etc/nixos/nixos-x13s
+git clone https://github.com/BrainWart/x13s-nixos.git /etc/nixos/nixos-x13s
 ```
 
 Then reference the module in your `configuration.nix` and use the module as documented in the flake example above:
@@ -96,3 +72,8 @@ dd if=result/usbdisk-*.iso of=/path/to/usb/disk
 ```
 
 Reboot, select USB drive from F12 boot menu, follow wizard.
+
+---
+
+Original Repository [unmaintained]:
+https://codeberg.org/adamcstephens/nixos-x13s.git
