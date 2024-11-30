@@ -1,6 +1,11 @@
 { lib, pkgs, ... }:
 let
-  sources = import ../npins;
+  linux_jhovold_src = pkgs.fetchFromGitHub {
+    owner = "jhovold";
+    repo = "linux";
+    rev = "wip/sc8280xp-6.12";
+    hash = "sha256-F9PtGVeT3i6EYt3uNp5PaFKPXiWOe6T8Y5U5WzXHauE=";
+  };
 
   linux_x13s_pkg =
     { version, buildLinux, ... }@args:
@@ -16,8 +21,8 @@ let
 in
 {
   linux_jhovold = pkgs.callPackage linux_x13s_pkg {
-    src = sources.linux-jhovold;
-    version = "6.11.0-rc1";
+    src = linux_jhovold_src;
+    version = "6.12.0";
     defconfig = "johan_defconfig";
   };
 
