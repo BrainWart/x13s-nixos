@@ -20,21 +20,8 @@
       perSystem =
         { pkgs, ... }:
         {
-          devShells = rec {
-            default = pkgs.mkShellNoCC { packages = [ pkgs.npins ] ++ ci.nativeBuildInputs; };
-
-            ci = pkgs.mkShellNoCC {
-              packages = [
-                pkgs.cachix
-                pkgs.jq
-                pkgs.just
-                (pkgs.python3.withPackages (py: [
-                  py.PyGithub
-                  py.packaging
-                ]))
-                pkgs.pyright
-              ];
-            };
+          devShells = {
+            default = pkgs.mkShellNoCC { packages = with pkgs; [ nixfmt-rfc-style ]; };
           };
         };
 
