@@ -44,13 +44,15 @@ in
     enable = lib.mkEnableOption "x13s hardware support";
 
     wifiMac = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.nullOr lib.types.str;
       description = "WiFi MAC address to set on boot";
+      default = null;
     };
 
     bluetoothMac = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.nullOr lib.types.str;
       description = "Bluetooth MAC address to set on boot";
+      default = null;
     };
 
     kernel = lib.mkOption {
@@ -158,13 +160,25 @@ in
     powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 
     # https://github.com/jhovold/linux/wiki/X13s#camera
-    services.udev.extraRules = ''
-      ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="linux,cma", GROUP="video", MODE="0660"
-      ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="system", GROUP="video", MODE="0660"
-      ACTION=="add", SUBSYSTEM=="net", KERNELS=="0006:01:00.0", RUN+="${pkgs.iproute2}/bin/ip link set dev $name address ${cfg.wifiMac}"
-    '';
+    services.udev.extraRules =
+      lib.strings.concatLines ([
+        ''
+          ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="linux,cma", GROUP="video", MODE="0660"
+          ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="system", GROUP="video", MODE="0660"
+        ''
+      ]
+      ++ (
+        if cfg.wifiMac != null then
+          [
+            ''
+              ACTION=="add", SUBSYSTEM=="net", KERNELS=="0006:01:00.0", RUN+="${pkgs.iproute2}/bin/ip link set dev $name address ${cfg.wifiMac}"
+            ''
+          ]
+        else
+          [ ]
+      ));
 
-    systemd.services.bluetooth-x13s-mac = {
+    systemd.services.bluetooth-x13s-mac = lib.mkIf (cfg.bluetoothMac != null) {
       wantedBy = [ "multi-user.target" ];
       before = [ "bluetooth.service" ];
       requiredBy = [ "bluetooth.service" ];
