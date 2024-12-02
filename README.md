@@ -22,19 +22,8 @@ The support for this machine is constantly improving in mainline kernel and upst
           inputs.nixos-x13s.nixosModules.default
           {
             nixos-x13s.enable = true;
-            # nixos-x13s.kernel = pkgs.linux_latest; # jhovold is default, but mainline supported
 
-            # install multiple kernels! note this increases eval time for each specialization
-            specialisation = {
-              # note that activation of each specialization is required to copy the dtb to the EFI, and thus boot
-              mainline.configuration.nixos-x13s.kernel = pkgs.x13s.linux;
-            };
-
-            # allow unfree firmware
             nixpkgs.config.allowUnfree = true;
-
-            # define your fileSystems
-            fileSystems."/".device = "/dev/notreal";
           }
         ];
       };
@@ -77,7 +66,7 @@ Reboot, select USB drive from F12 boot menu, follow wizard.
 
 ```
 nix flake upgrade
-scripts/getLatestJhovoldLinux.sh > packages/x13s/linux/source.json
+scripts/getLatestJhovoldLinux.sh > packages/x13s/linux_jhovold/source.json
 scripts/getLenovoDownloads.sh > packages/x13s/firmware/lenovo-downloads.json
 ```
 
