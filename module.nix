@@ -43,6 +43,11 @@ in
   options.nixos-x13s = {
     enable = lib.mkEnableOption "x13s hardware support";
 
+    wifiMac = lib.mkOption {
+      type = lib.types.str;
+      description = "WiFi MAC address to set on boot";
+    };
+
     bluetoothMac = lib.mkOption {
       type = lib.types.str;
       description = "Bluetooth MAC address to set on boot";
@@ -156,6 +161,7 @@ in
     services.udev.extraRules = ''
       ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="linux,cma", GROUP="video", MODE="0660"
       ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="system", GROUP="video", MODE="0660"
+      ACTION=="add", SUBSYSTEM=="net", KERNELS=="0006:01:00.0", RUN+="${pkgs.iproute2}/bin/ip link set dev $name address ${cfg.wifiMac}"
     '';
 
     systemd.services.bluetooth-x13s-mac = {
