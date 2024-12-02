@@ -1,25 +1,28 @@
-{ dtbName }:
 {
   config,
   lib,
-  options,
   pkgs,
   ...
 }:
 let
+  dtbName = "sc8280xp-lenovo-thinkpad-x13s.dtb";
   cfg = config.nixos-x13s;
 
-  x13sPackages = import ./packages/default.nix { inherit lib pkgs; };
-
-  linuxPackages_x13s =
-    if cfg.kernel == "mainline" then
-      pkgs.linuxPackages_latest
+  linuxPackages =
+    if lib.isDerivation cfg.kernel then
+      pkgs.linuxPackagesFor cfg.kernel
+    else if lib.isString cfg.kernel then
+      if cfg.kernel == "mainline" then
+        pkgs.linuxPackages_latest
+      else if cfg.kernel == "jhovold" then
+        pkgs.linuxPackagesFor pkgs.x13s.linux_jhovold
+      else
+        throw "unsupported enum value for kernel. use a kernel package instead. eg: pkgs.linux_latest"
     else
-      pkgs.linuxPackagesFor (
-        if cfg.kernel == "jhovold" then x13sPackages.linux_jhovold else throw "Unsupported kernel"
-      );
-  dtb = "${linuxPackages_x13s.kernel}/dtbs/qcom/${dtbName}";
-  dtbEfiPath = "dtbs/x13s.dtb";
+      throw "unsupported type for kernel!";
+
+  dtb = "${linuxPackages.kernel}/dtbs/qcom/${dtbName}";
+  dtbEfiPath = "dtbs/x13s-${linuxPackages.kernel.version}.dtb";
 
   modulesClosure = pkgs.makeModulesClosure {
     rootModules = config.boot.initrd.availableKernelModules ++ config.boot.initrd.kernelModules;
@@ -32,7 +35,7 @@ let
     name = "modules-closure";
     paths = [
       modulesClosure
-      x13sPackages.graphics-firmware
+      pkgs.x13s.firmware.graphics
     ];
   };
 in
@@ -46,12 +49,15 @@ in
     };
 
     kernel = lib.mkOption {
-      type = lib.types.enum [
-        "jhovold"
-        "mainline"
+      type = lib.types.oneOf [
+        lib.types.package
+        (lib.types.enum [
+          "jhovold"
+          "mainline"
+        ])
       ];
-      description = "Which patched kernel to use. jhovold is the latest RC or release with some x13s specific patches, and mainline is nixos latest";
-      default = "jhovold";
+      description = "'jhovold', 'mainline', or a linux package";
+      default = pkgs.x13s.linux_jhovold;
     };
   };
 
@@ -59,7 +65,7 @@ in
     environment.systemPackages = [ pkgs.efibootmgr ];
 
     hardware.enableAllFirmware = true;
-    hardware.firmware = lib.mkBefore [ x13sPackages.graphics-firmware ];
+    hardware.firmware = lib.mkBefore [ pkgs.x13s.firmware.graphics ];
 
     boot = {
       initrd.systemd.enable = true;
@@ -73,14 +79,14 @@ in
         "${dtbEfiPath}" = dtb;
       };
 
-      kernelPackages = linuxPackages_x13s;
+      kernelPackages = lib.mkForce linuxPackages;
 
       kernelParams = [
         # needed to boot
         "dtb=${dtbEfiPath}"
 
         # jhovold recommended
-        "efi=noruntime"
+        "efi=noruntime" # No longer needed if "Linux Boot" is enabled a recent version of the UEFI
         "clk_ignore_unused"
         "pd_ignore_unused"
         "arm64.nopauth"
@@ -122,19 +128,29 @@ in
     ];
 
     nixpkgs.overlays = [
-      (_: super: {
-        # don't try and use zfs
-        zfs = super.zfs.overrideAttrs (_: {
-          meta.platforms = [ ];
-        });
+      (
+        _: super:
+        (
+          {
+            # don't try and use zfs
+            zfs = super.zfs.overrideAttrs (_: {
+              meta.platforms = [ ];
+            });
 
-        # allow missing modules
-        makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
-      })
+            # allow missing modules
+            makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
+          }
+          # add our custom x13s packages
+          // (lib.packagesFromDirectoryRecursive {
+            callPackage = pkgs.callPackage;
+            directory = ./packages;
+          })
+        )
+      )
     ];
 
     # default is performance
-    powerManagement.cpuFreqGovernor = "ondemand";
+    powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 
     # https://github.com/jhovold/linux/wiki/X13s#camera
     services.udev.extraRules = ''

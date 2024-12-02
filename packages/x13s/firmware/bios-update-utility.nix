@@ -1,27 +1,28 @@
 {
-  stdenv,
-  parted,
-  util-linux,
+  callPackage,
   dosfstools,
   mtools,
-  uefi,
+  parted,
+  runCommand,
+  uefi ? (callPackage ./uefi.nix { }),
+  util-linux,
 }:
 
-stdenv.mkDerivation rec {
-  name = "usbdisk";
+let
+  name = "bios_update_utility";
   version = uefi.version;
-
-  src = ./.;
-
-  nativeBuildInputs = [
-    parted
-    util-linux
-    dosfstools
-    mtools
-  ];
-
-  doUnpack = false;
-  buildPhase = ''
+in
+runCommand name
+  {
+    inherit version;
+    nativeBuildInputs = [
+      parted
+      util-linux
+      dosfstools
+      mtools
+    ];
+  }
+  ''
     img=${name}-${version}.iso
     gap=8
     blocks=$(du -B 512 --summarize --apparent-size ${uefi} | awk '{ print $1 }')
@@ -41,10 +42,7 @@ stdenv.mkDerivation rec {
 
     dd conv=notrunc if=part.img of=$img seek=$START count=$SECTORS
     rm -fr part.img
-  '';
 
-  installPhase = ''
     mkdir $out
     mv ${name}-${version}.iso $out/
-  '';
-}
+  ''

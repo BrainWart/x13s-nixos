@@ -1,121 +1,70 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+
+    systems.url = "github:nix-systems/default-linux";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
   };
 
   outputs =
-    inputs@{ flake-parts, self, ... }:
+    { nixpkgs, flake-utils, ... }@inputs:
     let
-      dtbName = "sc8280xp-lenovo-thinkpad-x13s.dtb";
-    in
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ ./packages/part.nix ];
-
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
-
-      perSystem =
-        { pkgs, ... }:
-        {
-          devShells = {
-            default = pkgs.mkShellNoCC { packages = with pkgs; [ nixfmt-rfc-style ]; };
-          };
-        };
-
-      flake.nixosModules.default = import ./module.nix { inherit dtbName; };
-
-      flake.nixosConfigurations = {
-        example = inputs.nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            self.nixosModules.default
+      nixosConfigurations =
+        let
+          inherit (builtins)
+            listToAttrs
+            map
+            readDir
+            elemAt
+            filter
+            getAttr
+            match
+            attrNames
+            ;
+        in
+        listToAttrs (
+          map
+            (config: {
+              name = config;
+              value = nixpkgs.lib.nixosSystem {
+                system = "aarch64-linux";
+                specialArgs = {
+                  inherit inputs;
+                };
+                modules = [
+                  inputs.self.nixosModules.aarch64-linux.default
+                  (import (./configurations + "/${config}.nix"))
+                ];
+              };
+            })
             (
-              { config, pkgs, ... }:
-              {
-                nixos-x13s.enable = true;
-                nixos-x13s.kernel = "jhovold"; # jhovold is default, but mainline supported
-
-                # allow unfree firmware
-                nixpkgs.config.allowUnfree = true;
-
-                # define your fileSystems
-                fileSystems."/".device = "/dev/notreal";
-              }
-            )
-          ];
-        };
-
-        iso = inputs.nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          modules = [
-
-            self.nixosModules.default
-            (
-              {
-                modulesPath,
-                config,
-                lib,
-                pkgs,
-                ...
-              }:
               let
-                image = import "${inputs.nixpkgs}/nixos/lib/make-disk-image.nix" {
-                  inherit config lib pkgs;
-
-                  name = "nixos-x13s-bootstrap";
-                  diskSize = "auto";
-                  format = "raw";
-                  partitionTableType = "efi";
-                  copyChannel = false;
-                };
-
+                entries = readDir ./configurations;
               in
-              {
-                hardware.deviceTree = {
-                  enable = true;
-                  name = "qcom/${dtbName}";
-                };
-
-                system.build.bootstrap-image = image;
-
-                boot = {
-                  initrd = {
-                    systemd.enable = true;
-                    systemd.emergencyAccess = true;
-                  };
-
-                  loader = {
-                    grub.enable = false;
-                    systemd-boot.enable = true;
-                    systemd-boot.graceful = true;
-                  };
-                };
-
-                nixpkgs.config.allowUnfree = true;
-
-                nixos-x13s = {
-                  enable = true;
-                  bluetoothMac = "02:68:b3:29:da:98";
-                };
-
-                fileSystems = {
-                  "/boot" = {
-                    fsType = "vfat";
-                    device = "/dev/disk/by-label/ESP";
-                  };
-                  "/" = {
-                    device = "/dev/disk/by-label/nixos";
-                    fsType = "ext4";
-                    autoResize = true;
-                  };
-                };
-              }
+              map (key: elemAt (match "(.+)\\.nix" (baseNameOf key)) 0) (
+                filter (key: (getAttr key entries) == "regular") (attrNames entries)
+              )
             )
-          ];
-        };
-      };
+        );
+    in
+    (flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+
+      in
+      {
+        devShells.default = import ./shell.nix { inherit pkgs; };
+
+        nixosModules.default = import ./module.nix;
+
+        packages = import ./default.nix { inherit pkgs; };
+      }
+    ))
+    // {
+      inherit nixosConfigurations;
     };
 }

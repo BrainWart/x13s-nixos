@@ -1,0 +1,79 @@
+From mboxrd@z Thu Jan  1 00:00:00 1970
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCFF1CDFD2;
+	Thu,  3 Oct 2024 23:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727996939; cv=none; b=HCDrUz9Bx3SCCJ/TK77MkXVtK7eIaYiEf6IAr0TEfA0tIGHd1N4YesWFzkX/wv/BMk4nkhzd2t2GR8bNk7Aq4NUdQYbxmT7IyzMvmLkQ/gMBiPLk0vDY5hdJojIivV8hKinZ4rKhvUuJWp+ipqPgiIt1XjmXClCJ3XJ4CIMCGnI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727996939; c=relaxed/simple;
+	bh=DzQHCv1YgHZYR5hu7J+5iPetr1YSbCm6MTZAU6xv2oo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=snNcojKVSWxfkzJ6rHoqURR3jGzp8s88hfYdUhMo5gYk6GtqbKLKqmxSlWUkOaDcEKDWNcPiTPyQ73KintqHldglBjHCka/UOfy9iHuU9u17GXCumrnFWlRLCYBI6YHV4i1lYM+rvFwktmDEEzpiPBWWzjwByUnHOOs4TPFsm8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IMMvu79L; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IMMvu79L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6B9AC4CEC5;
+	Thu,  3 Oct 2024 23:08:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727996939;
+	bh=DzQHCv1YgHZYR5hu7J+5iPetr1YSbCm6MTZAU6xv2oo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=IMMvu79LVQfFX3ETLxZugfhepwunJuO+6XCzDcxcOVsLrNI5k5fpMk6TitACbAxsI
+	 LL7Xz8YPr8e7bEKeL4WO+GIsqDyB3KTZRUZ1saaqAkjAVkuS94mUVTGRL65yquQrJb
+	 D7xun4CDy9Wl+9QHefwwZvK31yVhSAy8WIgAbUP+B0MVIemQtT8AUWrHxNn36/C8yU
+	 gNwt/0NJ4MyQEklvE7o3UEgc7ssBMxdejVkz/d/Z+mGdBfuHlFzfnNOYNfUTnVp047
+	 3QBlD4MJhrOdUT++lTMzxQa+O0Q0y5CsNBC53aDJWR2Y+9Tu7dxJmI79zo+NPp8O5R
+	 Rbx5gTZy14l0A==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH] drm/panic: Select ZLIB_DEFLATE for DRM_PANIC_SCREEN_QR_CODE
+Date: Fri,  4 Oct 2024 01:07:34 +0200
+Message-ID: <20241003230734.653717-1-ojeda@kernel.org>
+Precedence: bulk
+X-Mailing-List: patches@lists.linux.dev
+List-Id: <patches.lists.linux.dev>
+List-Subscribe: <mailto:patches+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:patches+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+Under `CONFIG_DRM_PANIC_SCREEN_QR_CODE=y`, zlib is used:
+
+    ld.lld: error: undefined symbol: zlib_deflate_workspacesize
+    >>> referenced by drm_panic.c
+    >>>               drivers/gpu/drm/drm_panic.o:(drm_panic_qr_init) in archive vmlinux.a
+
+Thus select `CONFIG_ZLIB_DEFLATE`.
+
+Fixes: cb5164ac43d0 ("drm/panic: Add a QR code panic screen")
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ drivers/gpu/drm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 1cb5a4f19293..cf5bc77e2362 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -152,6 +152,7 @@ config DRM_PANIC_SCREEN
+ config DRM_PANIC_SCREEN_QR_CODE
+ 	bool "Add a panic screen with a QR code"
+ 	depends on DRM_PANIC && RUST
++	select ZLIB_DEFLATE
+ 	help
+ 	  This option adds a QR code generator, and a panic screen with a QR
+ 	  code. The QR code will contain the last lines of kmsg and other debug
+--
+2.46.2
+

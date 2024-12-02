@@ -22,12 +22,12 @@ The support for this machine is constantly improving in mainline kernel and upst
           inputs.nixos-x13s.nixosModules.default
           {
             nixos-x13s.enable = true;
-            nixos-x13s.kernel = "jhovold"; # jhovold is default, but mainline supported
+            # nixos-x13s.kernel = pkgs.linux_latest; # jhovold is default, but mainline supported
 
             # install multiple kernels! note this increases eval time for each specialization
             specialisation = {
               # note that activation of each specialization is required to copy the dtb to the EFI, and thus boot
-              mainline.configuration.nixos-x13s.kernel = "mainline";
+              mainline.configuration.nixos-x13s.kernel = pkgs.x13s.linux;
             };
 
             # allow unfree firmware
@@ -66,12 +66,20 @@ Then reference the module in your `configuration.nix` and use the module as docu
 This repository provides a package which can output the USB UEFI Update ISO. This will be updated as Lenovo releases new versions.
 
 ```
-nix build .#uefi-usbiso
+nix build .#x13s.firmware.bios-update-utility
 
-dd if=result/usbdisk-*.iso of=/path/to/usb/disk
+dd if=result/bios_update_utility*.iso of=/path/to/usb/disk
 ```
 
 Reboot, select USB drive from F12 boot menu, follow wizard.
+
+## Updating packages
+
+```
+nix flake upgrade
+scripts/getLatestJhovoldLinux.sh > packages/x13s/linux/source.json
+scripts/getLenovoDownloads.sh > packages/x13s/firmware/lenovo-downloads.json
+```
 
 ---
 
