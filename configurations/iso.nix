@@ -1,6 +1,56 @@
 { pkgs, ... }:
 # nix run github:nix-community/nixos-generators -- --flake .#iso -f iso
 {
+  nixpkgs.config.allowUnfree = true;
+  nix = {
+    settings.trusted-users = [ "@wheel" ];
+    extraOptions = "experimental-features = nix-command flakes";
+  };
+
+  nixos-x13s.enable = true;
+
+  services.libinput.enable = true;
+
+  services.xserver.displayManager.gdm = {
+    enable = true;
+    autoSuspend = false;
+  };
+  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "nixos";
+  };
+  networking.networkmanager.enable = true;
+
+
+  environment.defaultPackages = [
+    pkgs.gparted
+    pkgs.vim
+    pkgs.firefox
+  ];
+
+  users.users.root.initialHashedPassword = "";
+  users.users.nixos = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" "video" ];
+    initialHashedPassword = "";
+  };
+
+  security.polkit = {
+    enable = true;
+    extraConfig = ''
+      polkit.addRule(function(action, subject) {
+        if (subject.isInGroup("wheel")) {
+          return polkit.Result.YES;
+        }
+      });
+    '';
+  };
+  security.sudo = {
+    enable = true;
+    wheelNeedsPassword = false;
+  };
+
   boot = {
     initrd = {
       systemd.enable = true;
@@ -14,13 +64,5 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-
-  nixos-x13s = {
-    enable = true;
-    bluetoothMac = "02:68:b3:29:da:98";
-    kernel = pkgs.x13s.linux_jhovold;
-  };
-
-  system.stateVersion = "25.05";
+  system.stateVersion = "24.11";
 }
