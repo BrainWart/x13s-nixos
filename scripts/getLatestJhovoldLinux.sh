@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 URL="$(curl -s "https://github.com/jhovold/linux/wiki/X13s" | grep -Po '(?<=href=")https://github.com/jhovold/[a-zA-Z0-9:/\.\-]+(?=")')"
 
