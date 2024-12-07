@@ -160,8 +160,8 @@ in
     powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 
     # https://github.com/jhovold/linux/wiki/X13s#camera
-    services.udev.extraRules =
-      lib.strings.concatLines ([
+    services.udev.extraRules = lib.strings.concatLines (
+      [
         ''
           ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="linux,cma", GROUP="video", MODE="0660"
           ACTION=="add", SUBSYSTEM=="dma_heap", KERNEL=="system", GROUP="video", MODE="0660"
@@ -176,7 +176,8 @@ in
           ]
         else
           [ ]
-      ));
+      )
+    );
 
     systemd.services.bluetooth-x13s-mac = lib.mkIf (cfg.bluetoothMac != null) {
       wantedBy = [ "multi-user.target" ];
