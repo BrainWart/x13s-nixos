@@ -12,6 +12,9 @@
   outputs =
     { nixpkgs, flake-utils, ... }@inputs:
     let
+      nixosModules = {
+        default = import ./module.nix;
+      };
       nixosConfigurations =
         let
           inherit (builtins)
@@ -57,14 +60,14 @@
 
       in
       {
-        devShells.default = import ./shell.nix { inherit pkgs; };
+        inherit nixosModules;
 
-        nixosModules.default = import ./module.nix;
+        devShells.default = import ./shell.nix { inherit pkgs; };
 
         packages = import ./default.nix { inherit pkgs; };
       }
     ))
     // {
-      inherit nixosConfigurations;
+      inherit nixosConfigurations nixosModules;
     };
 }
