@@ -127,7 +127,7 @@ in
     };
 
     # https://github.com/jhovold/linux/wiki/X13s#modem
-    networking.networkmanager.fccUnlockScripts = [
+    networking.modemmanager.fccUnlockScripts = [
       {
         id = "105b:e0c3";
         path = "${pkgs.modemmanager}/share/ModemManager/fcc-unlock.available.d/105b";
