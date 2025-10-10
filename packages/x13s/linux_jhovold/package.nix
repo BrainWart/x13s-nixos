@@ -56,5 +56,7 @@ buildLinux {
 
   kernelPatches = patches;
 
+  ignoreConfigErrors = true;
+ 
   extraMeta.branch = source.rev;
 }
