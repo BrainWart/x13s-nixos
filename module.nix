@@ -180,10 +180,6 @@ in
       )
     );
 
-    # Bluez 5.83 has critical bug with qualcomm adapter
-    # https://github.com/bluez/bluez/issues/1394
-    hardware.bluetooth.package = lib.mkForce stable-nixpkgs.legacyPackages.aarch64-linux.bluez;
-
     systemd.services.bluetooth-x13s-mac = lib.mkIf (cfg.bluetoothMac != null) {
       wantedBy = [ "multi-user.target" ];
       before = [ "bluetooth.service" ];
@@ -192,7 +188,9 @@ in
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        ExecStart = "${pkgs.util-linux}/bin/script -q -c '${pkgs.bluez}/bin/btmgmt --index 0 public-addr ${cfg.bluetoothMac}'";
+        # Bluez 5.83 has critical bug with qualcomm adapter
+        # https://github.com/bluez/bluez/issues/1394
+        ExecStart = "${pkgs.util-linux}/bin/script -q -c '${stable-nixpkgs.bluez}/bin/btmgmt --index 0 public-addr ${cfg.bluetoothMac}'";
       };
     };
   };
