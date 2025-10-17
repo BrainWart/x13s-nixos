@@ -190,7 +190,7 @@ in
         RemainAfterExit = true;
         # Bluez 5.83 has critical bug with qualcomm adapter
         # https://github.com/bluez/bluez/issues/1394
-        ExecStart = "${pkgs.util-linux}/bin/script -q -c '${stable-nixpkgs.bluez}/bin/btmgmt --index 0 public-addr ${cfg.bluetoothMac}'";
+        ExecStart = "${pkgs.util-linux}/bin/script -q -c '${stable-nixpkgs.legacyPackages.bluez}/bin/btmgmt --index 0 public-addr ${cfg.bluetoothMac}'";
       };
     };
   };
