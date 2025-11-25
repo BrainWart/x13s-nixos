@@ -45,6 +45,7 @@
                 system = "aarch64-linux";
                 specialArgs = {
                   inherit inputs;
+                  inherit (inputs.x13s) stable-nixpkgs;
                 };
                 modules = [
                   inputs.self.nixosModules.aarch64-linux.default
