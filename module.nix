@@ -182,7 +182,7 @@ in
 
     systemd.services.bluetooth-x13s-mac = lib.mkIf (cfg.bluetoothMac != null) {
       wantedBy = [ "multi-user.target" ];
-      before = [ "bluetooth.service" ];
+      after = [ "bluetooth.service" ];
       requiredBy = [ "bluetooth.service" ];
 
       serviceConfig = {

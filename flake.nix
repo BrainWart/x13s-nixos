@@ -2,7 +2,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # TEMPORARY input for bluez rewrite
     stable-nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-25.05";
     };
@@ -15,7 +14,12 @@
   };
 
   outputs =
-    { nixpkgs, flake-utils, ... }@inputs:
+    {
+      nixpkgs,
+      stable-nixpkgs,
+      flake-utils,
+      ...
+    }@inputs:
     let
       nixosModules = {
         default = import ./module.nix;
