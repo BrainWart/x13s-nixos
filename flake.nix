@@ -18,7 +18,7 @@
     }@inputs:
     let
       nixosModules = {
-        default = import ./module.nix { inherit inputs; };
+        default = import ./module.nix { inherit nixpkgs stable-nixpkgs; };
       };
       nixosConfigurations =
         let
