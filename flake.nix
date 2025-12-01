@@ -13,11 +13,12 @@
     {
       nixpkgs,
       flake-utils,
+      stable-nixpkgs,
       ...
     }@inputs:
     let
       nixosModules = {
-        default = import ./module.nix;
+        default = import ./module.nix { inherit stable-nixpkgs; };
       };
       nixosConfigurations =
         let
