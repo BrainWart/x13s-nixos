@@ -4,8 +4,8 @@
 pkgs.mkShellNoCC {
   packages = [
     # editing nix files
-    pkgs.nixfmt-rfc-style
-    pkgs.nixd
+    pkgs.nixfmt
+    pkgs.nil
 
     # for use in the update scripts
     pkgs.jq
