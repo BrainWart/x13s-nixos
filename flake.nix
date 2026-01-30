@@ -19,7 +19,7 @@
     {
       packages = forAllSystems (pkgs: {
         bios-update-utility = pkgs.callPackage ./packages/x13s/firmware/bios-update-utility.nix { };
-        installer = (import ./configurations/iso.nix { inherit pkgs; }).config.system.build.isoImage;
+        installer = (pkgs.callPackage ./packages/x13s/installer.nix { });
       });
       devShells = forAllSystems (pkgs: {
         default = import ./shell.nix { inherit pkgs; };
