@@ -5,7 +5,7 @@
   stdenv,
 }:
 let
-  allDownloads = (builtins.fromJSON (builtins.readFile ./lenovo-downloads.json)).body.DownloadItems;
+  allDownloads = (builtins.fromJSON (builtins.readFile ./lenovo-downloads.json));
   downloads = builtins.concatLists (
     builtins.map (d: d.Files) (builtins.filter (d: lib.hasInfix "BIOS Update" d.Title) allDownloads)
   );
