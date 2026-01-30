@@ -15,30 +15,38 @@ let
     builtins.head (builtins.match "^.+/([a-zA-Z0-9]+).exe$" exeDownload.URL)
   );
 in
-stdenv.mkDerivation {
-  name = "graphics-firmware";
-  version = exeDownload.Version;
+builtins.warn
+  ''
+    x13s packages are being removed. All firmware is now in `linux-firmware`
+    and is included with `hardware.enableRedistributableFirmware`.
 
-  src = fetchurl {
-    url = exeDownload.URL;
-    sha256 = exeDownload.SHA256;
-  };
+    linux_jhovold is no longer maintained. Use linux_latest or linux_testing.
+  ''
+  stdenv.mkDerivation
+  {
+    name = "graphics-firmware";
+    version = exeDownload.Version;
 
-  nativeBuildInputs = [ innoextract ];
+    src = fetchurl {
+      url = exeDownload.URL;
+      sha256 = exeDownload.SHA256;
+    };
 
-  unpackPhase = ''
-    innoextract $src
-  '';
+    nativeBuildInputs = [ innoextract ];
 
-  doBuild = false;
-  dontFixup = true;
+    unpackPhase = ''
+      innoextract $src
+    '';
 
-  installPhase = ''
-    mkdir -vp "$out/lib/firmware/qcom/sc8280xp/LENOVO/21BX"
-    cp -v code\$GetExtractPath\$/${versionName}/**/*.mbn "$out/lib/firmware/qcom/sc8280xp/LENOVO/21BX/"
-  '';
+    doBuild = false;
+    dontFixup = true;
 
-  meta = {
-    license = lib.licenses.unfree;
-  };
-}
+    installPhase = ''
+      mkdir -vp "$out/lib/firmware/qcom/sc8280xp/LENOVO/21BX"
+      cp -v code\$GetExtractPath\$/${versionName}/**/*.mbn "$out/lib/firmware/qcom/sc8280xp/LENOVO/21BX/"
+    '';
+
+    meta = {
+      license = lib.licenses.unfree;
+    };
+  }
