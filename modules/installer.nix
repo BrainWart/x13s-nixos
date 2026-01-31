@@ -55,9 +55,9 @@
       ];
 
       availableKernelModules = [
-        "pcieport"
+        # "pcieport"
         "mhi-pci-generic"
-        "xhci-hcp"
+        # "xhci-hcp"
         "usb-storage"
         "vfat"
       ];
