@@ -8,7 +8,7 @@ The support for this machine is constantly improving in mainline kernel and upst
 
 ## Without Flakes
 ```sh
-nix-build configurations/iso.nix -A config.system.build.isoImage
+nix-build -A installer
 ```
 
 ## With Flakes
