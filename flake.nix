@@ -8,6 +8,7 @@
     let
       nixosModules = {
         default = import ./module.nix;
+        installer = import ./modules/installer.nix;
       };
       forAllSystems =
         function:
