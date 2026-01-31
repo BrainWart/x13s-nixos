@@ -92,7 +92,7 @@ in
           requiredBy = [ "bluetooth.service" ];
 
           script = ''
-            BLUETOOTH_MAC="${cfg.bluetoothMac}"
+            BLUETOOTH_MAC="${if cfg.bluetoothMac == null then "" else cfg.bluetoothMac}"
 
             if [ "$BLUETOOTH_MAC" = "" ] ; then
               # we might be able to use the system serial number but, if we lost machine-id

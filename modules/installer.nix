@@ -8,7 +8,7 @@
 {
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix"
-    ../../module.nix
+    ../module.nix
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
