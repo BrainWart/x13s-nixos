@@ -14,19 +14,19 @@ if [[ "$URL" =~ https://github.com/([^/]+)/([^/]+)/tree/(.+)$ ]] ; then
         VERSION)
           VERSION="${BASH_REMATCH[2]}"
           ;;
-        PATCHLEVEL)
-          PATCHLEVEL="${BASH_REMATCH[2]}"
+        PATCH_LEVEL)
+          PATCH_LEVEL="${BASH_REMATCH[2]}"
           ;;
         SUBLEVEL)
           SUBLEVEL="${BASH_REMATCH[2]}"
           ;;
-        EXTRAVERSION)
-          EXTRAVERSION="${BASH_REMATCH[2]}"
+        EXTRA_VERSION)
+          EXTRA_VERSION="${BASH_REMATCH[2]}"
           ;;
       esac
     fi
   done < <( curl -s "$MAKEFILE_URL" )
-  FULL_VERSION="$VERSION.$PATCHLEVEL.$SUBLEVEL$EXTRAVERSION"
+  FULL_VERSION="$VERSION.$PATCH_LEVEL.$SUBLEVEL$EXTRA_VERSION"
 fi
 
 HASH="$(nix-prefetch-url --unpack "https://codeload.github.com/$OWNER/$REPO/zip/refs/heads/$REVISION")"

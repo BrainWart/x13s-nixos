@@ -1,14 +1,22 @@
 {
+  pkgs ? import <nixpkgs> { },
   ...
 }:
 {
   imports = [
-    ../module.nix
+    "${
+      pkgs.fetchFromGitHub {
+        owner = "BrainWart";
+        repo = "x13s-nixos";
+        rev = "";
+        hash = pkgs.lib.fakeHash;
+      }
+    }/module.nix"
   ];
 
   nixos-x13s.enable = true;
+  nixos-x13s.kernel = null; # suppress warning
 
-  nixpkgs.config.allowUnfree = true;
-
-  system.stateVersion = "24.11";
+  nixpkgs.hostPlatform = "aarch64-linux";
+  system.stateVersion = "25.11";
 }

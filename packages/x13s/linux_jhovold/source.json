@@ -1,7 +1,7 @@
 {
   "owner": "jhovold",
   "repo": "linux",
-  "rev": "wip/sc8280xp-6.12",
-  "version": "6.12.0",
-  "hash": "sha256-F9PtGVeT3i6EYt3uNp5PaFKPXiWOe6T8Y5U5WzXHauE="
+  "rev": "wip/sc8280xp-6.16",
+  "version": "6.16.0",
+  "hash": "sha256-4DWbK1oNCBwW3puyRmq9G1B1ROlVAAm3zZRXe/UC15A="
 }
