@@ -1,7 +1,7 @@
 {
   pkgs ? (
     let
-      flakeLock = (builtins.fromJSON (builtins.readFile ../flake.lock));
+      flakeLock = (builtins.fromJSON (builtins.readFile ../../flake.lock));
       source =
         with flakeLock.nodes.nixpkgs.locked;
         fetchTarball {
@@ -342,4 +342,4 @@ in
       }
     )
   ];
-})).config.system.build.isoImage
+}))
