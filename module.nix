@@ -97,7 +97,7 @@ in
             if [ "$BLUETOOTH_MAC" = "" ] ; then
               # we might be able to use the system serial number but, if we lost machine-id
               # the system has probably lost the bluetooth device keys anyway
-              RANDOM=$(( $(cat /etc/machine-id | head -c 128 | sed -e 's/[^0-9]//g') % 32767 ))
+              RANDOM=$(( $(cat /etc/machine-id | head -c 128 | sed -e 's/[^0-9]//g;s/^0*//') ))
 
               # https://datatracker.ietf.org/doc/html/rfc7042#section-2.1
               # > Two bits within the initial octet of an EUI-48 have special
