@@ -8,7 +8,7 @@ The support for this machine is constantly improving in mainline kernel and upst
 
 ## Without Flakes
 ```sh
-nix-build -A installer
+nix-build -A x13s.installer
 ```
 
 ## With Flakes
