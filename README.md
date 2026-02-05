@@ -4,6 +4,13 @@ This repository aims to provide easy, shared, support for Lenovo X13s on Linux.
 
 The support for this machine is constantly improving in mainline kernel and upstream packages. Eventually the goal is that this repository is no longer necessary.
 
+## NixOS Module
+
+[!IMPORTANT]
+This repo is dropping some functionality in the "near" future
+
+Please consider using the module in [nixos-hardware](https://github.com/nixos/nixos-hardware/tree/master/lenovo/thinkpad/x13s). The additional options and configurations in this repository are/were moved in [nixos/nixos-hardware#1751](https://github.com/NixOS/nixos-hardware/pull/1751). This repository will be maintained for the UEFI updating tools, and installer ISO configuration.
+
 ## Add with a flake
 
 ```nix
